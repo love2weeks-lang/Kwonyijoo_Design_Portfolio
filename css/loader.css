@@ -1,0 +1,62 @@
+/* ---------- Loading screen ----------
+   시안: 2026PF_loading_source/Loading_page.jpg (1920×1080)
+   보드 원점은 로딩바 왼쪽 위 기준 (324, 411), 보드 크기 1276×259.
+   --u: 시안 1px. 데스크톱은 원본 크기, 좁은 화면은 좌우 16px 여백을 두고 비율대로 축소 */
+
+.loader { display: none; }
+
+html.is-loading { overflow: hidden; }
+
+html.is-loading .loader {
+  --u: min(1px, (100vw - 32px) / 1276);
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: grid;
+  place-items: center;
+  background: #18132b;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+html.is-loading .loader.is-leaving { opacity: 0; }
+
+.loader-board {
+  position: relative;
+  width: calc(1276 * var(--u));
+  height: calc(259 * var(--u));
+}
+
+.loader-board img {
+  position: absolute;
+  max-width: none;
+  height: auto;
+  pointer-events: none;
+}
+
+.loader-title { top: 0; left: calc(156 * var(--u)); width: calc(961 * var(--u)); }
+.loader-notice { top: calc(90 * var(--u)); left: calc(40 * var(--u)); width: calc(1192 * var(--u)); }
+.loader-track { top: calc(195 * var(--u)); left: 0; width: calc(1276 * var(--u)); }
+.loader-label { top: calc(238 * var(--u)); left: calc(574 * var(--u)); width: calc(126 * var(--u)); }
+
+/* 진행 영역: 채워진 바 이미지를 진행률(--progress, 0~1)만큼 왼쪽부터 보여 준다 */
+.loader-fill {
+  top: calc(195 * var(--u));
+  left: 0;
+  width: calc(1275 * var(--u));
+  clip-path: inset(0 calc((1 - var(--progress, 0)) * 100%) 0 0);
+}
+
+.loader .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.is-loading .loader { transition-duration: 0.15s; }
+}

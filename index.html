@@ -15,6 +15,15 @@
   <meta property="og:image:height" content="675">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://love2weeks-lang.github.io/Kwonyijoo_Design_Portfolio/og-image.jpg">  <script>document.documentElement.classList.add('js');</script>
+  <script>
+    // 로딩 화면: 이 탭에서 처음 메인에 들어왔을 때만 (아카이브 주소로 바로 들어오면 생략). 그리기 전에 정한다
+    (function () {
+      var seen = false;
+      try { seen = sessionStorage.getItem('pf-loading-seen') === '1'; } catch (e) {}
+      if (!seen && !/^#\/archive\//.test(location.hash)) document.documentElement.classList.add('is-loading');
+    })();
+  </script>
+  <link rel="stylesheet" href="css/loader.css">
   <!-- 모든 프레임 사전 로딩 -->
   <link rel="preload" as="image" href="EYE_01.png">
   <link rel="preload" as="image" href="EYE_02.png">
@@ -31,6 +40,19 @@
   <script type="module" src="js/archive/mount.jsx"></script>
 </head>
 <body>
+  <!-- 로딩 화면 (js/loader.js, css/loader.css). 좌표는 2026PF_loading_source/Loading_page.jpg 기준 -->
+  <div class="loader" data-loader aria-live="polite">
+    <div class="loader-board">
+      <img class="loader-title" src="loading/title.png" alt="WELCOME TO MY PORTFOLIO!">
+      <img class="loader-notice" src="loading/notice.png" alt="본 웹사이트는 채용 지원을 위해 제작된 개인 포트폴리오입니다. 포함된 작업물은 포트폴리오 검토 목적으로만 열람해 주시고, 외부 공유 및 무단 사용은 삼가 주시면 감사하겠습니다 :)">
+      <div role="progressbar" aria-label="포트폴리오 불러오는 중" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <img class="loader-track" src="loading/bar_track.png" alt="">
+        <img class="loader-fill" src="loading/bar_fill.png" alt="">
+      </div>
+      <img class="loader-label" src="loading/loading_text.png" alt="LOADING...">
+    </div>
+  </div>
+
   <main>
     <section class="cover" aria-label="표지">
       <!-- 1920×1080 아트보드. 좌표는 PF_cover_수정.jpg 기준 -->

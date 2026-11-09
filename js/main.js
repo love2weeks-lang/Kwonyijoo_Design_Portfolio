@@ -3,6 +3,7 @@ import { createBattery } from './battery.js';
 import { revealTitle } from './titleReveal.js';
 import { initScrollDown } from './scrollDown.js';
 import { initProfileReveal } from './profileReveal.js';
+import { loaderDone } from './loader.js';
 
 // 인터랙션별 on/off
 const INTERACTIONS = {
@@ -21,7 +22,8 @@ function preloadImages(root) {
   return Promise.all(images.map((img) => img.decode().catch(() => {})));
 }
 
-preloadImages(cover).then(() => {
+// 로딩 화면이 페이드아웃으로 완전히 사라진 뒤에 COVER 애니메이션 시작
+Promise.all([preloadImages(cover), loaderDone]).then(() => {
   const title = cover.querySelector('[data-title-reveal]');
   if (INTERACTIONS.titleReveal) revealTitle(title);
   else title.classList.add('is-shown');
