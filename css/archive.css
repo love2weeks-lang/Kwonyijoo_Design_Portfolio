@@ -358,6 +358,18 @@ html.in-archive { scrollbar-gutter: stable; }
 
 .archive-top img { width: 100%; height: auto; }
 
+/* 마우스 오버 시 #f8f5ff 이미지로 */
+.archive-top .top-on {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.archive-top:hover .top-on,
+.archive-top:focus-visible .top-on { opacity: 1; }
+
 /* ---------- 태블릿·모바일 ---------- */
 
 @media (max-width: 1100px) {
@@ -414,6 +426,7 @@ html.in-archive { scrollbar-gutter: stable; }
 @media (prefers-reduced-motion: reduce) {
   .popup-layer,
   .archive-full img,
+  .archive-top .top-on,
   .thumb-slide,
   .archive .archive-top,
   .archive .archive-top.is-shown { transition: none; }

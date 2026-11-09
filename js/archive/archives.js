@@ -557,4 +557,6 @@ export const UI = {
   popupArrowRight: new URL('../../archive/팝업화살표_오른쪽.png', import.meta.url).href,
   popupScrollbar: new URL('../../archive/팝업_스크롤바.png', import.meta.url).href,
   pageTop: new URL('../../archive/탑버튼.png', import.meta.url).href,
+  // 마우스 오버: 보라색(#a796e5) 부분을 #f8f5ff로 바꾼 이미지
+  pageTopOn: new URL('../../archive/탑버튼_on.png', import.meta.url).href,
 };
