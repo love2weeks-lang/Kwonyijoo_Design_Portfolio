@@ -52,8 +52,8 @@ export function ArchiveApp() {
       window.history.back();
       return;
     }
-    // 아카이브 주소로 바로 들어온 경우: 메인의 SELECT PROJECTS로
-    window.history.pushState(null, '', window.location.pathname + window.location.search);
+    // 아카이브 주소로 바로 들어온 경우: 메인의 SELECT PROJECTS로 (기록을 교체해 다시 아카이브로 돌아오지 않게)
+    window.history.replaceState(null, '', window.location.pathname + window.location.search);
     window.dispatchEvent(new HashChangeEvent('hashchange'));
   };
 

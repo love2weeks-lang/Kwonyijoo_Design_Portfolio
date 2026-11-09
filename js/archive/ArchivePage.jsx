@@ -23,6 +23,12 @@ function ArchiveHeader({ archive, onBack }) {
                 className="archive-nav-item"
                 href={`#/archive/${item.id}`}
                 aria-current={isCurrent ? 'page' : undefined}
+                onClick={(event) => {
+                  // 아카이브끼리 이동은 기록을 쌓지 않고 교체: 뒤로 가기 한 번이면 아카이브 밖(메인)으로 나간다
+                  if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+                  event.preventDefault();
+                  if (!isCurrent) window.location.replace(`#/archive/${item.id}`);
+                }}
                 style={style}
               >
                 <span className="sr-only">{item.label}</span>
