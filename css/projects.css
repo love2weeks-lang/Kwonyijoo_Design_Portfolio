@@ -1,0 +1,380 @@
+/* ---------- Select Projects ---------- */
+
+/* 데스크톱은 표지·프로필과 같은 고정 규칙: 1920×1080(16:9) 전체를 페이지 가로 폭에 맞춰 표시.
+   좌표는 project/project_full.jpg 기준, --u는 1920 기준 1px */
+.projects {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1920 / 1080;
+  overflow: hidden;
+  background: #181428;
+  container-type: inline-size;
+  --u: calc(100cqw / 1920);
+}
+
+.projects-board {
+  position: absolute;
+  inset: 0;
+}
+
+.projects-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.projects button,
+.projects a {
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: inherit;
+}
+
+.projects :focus { outline: none; }
+
+.projects :focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+}
+
+/* ---------- 마키: 1451px 이미지 + 60px 간격을 한 주기로 무한 반복 ---------- */
+
+.projects-marquee {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(51 * var(--u));
+  overflow: hidden;
+}
+
+.projects-marquee-bar {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.projects-marquee-track {
+  position: absolute;
+  top: calc(16 * var(--u));
+  left: 0;
+  display: flex;
+  width: max-content;
+  animation: projects-marquee 22s linear -0.98s infinite;
+}
+
+.projects-marquee-track img {
+  flex: none;
+  width: calc(1451 * var(--u));
+  height: calc(19 * var(--u));
+  margin-right: calc(60 * var(--u));
+}
+
+@keyframes projects-marquee {
+  to { transform: translateX(calc(-1511 * var(--u))); }
+}
+
+.is-page-hidden .projects-marquee-track { animation-play-state: paused; }
+
+/* ---------- 카드: 위치·크기·딤·글로우는 useCarousel이 프레임마다 계산 ---------- */
+
+.projects-stage {
+  position: absolute;
+  top: calc(51 * var(--u));
+  left: 0;
+  width: 100%;
+  height: calc(649 * var(--u));
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.projects-stage:focus-visible { outline-offset: -4px; }
+
+.project-card {
+  position: absolute;
+  left: 50%;
+  /* 중앙 카드 중심 y 399.5 */
+  top: calc(348.5 * var(--u));
+  width: calc(381 * var(--u));
+  aspect-ratio: 381 / 537;
+  will-change: transform;
+}
+
+.project-card img {
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.project-card-dim {
+  position: absolute;
+  inset: 0;
+  background: #18132b;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  pointer-events: none;
+}
+
+/* ---------- 화살표 ---------- */
+
+.projects-arrow {
+  position: absolute;
+  top: calc(373 * var(--u));
+  z-index: 200;
+  width: calc(90 * var(--u));
+  border-radius: 50%;
+}
+
+.projects-arrow img { width: 100%; height: auto; }
+.projects-arrow.is-left { left: calc(56 * var(--u)); }
+.projects-arrow.is-right { left: calc(1774 * var(--u)); }
+
+/* ---------- 페이지네이션: 막대 간격 65.4px, 클릭 영역은 막대보다 크게 ---------- */
+
+.projects-pagination {
+  position: absolute;
+  top: calc(695 * var(--u));
+  left: calc(763.8 * var(--u));
+  z-index: 200;
+  display: flex;
+}
+
+.projects-pagination button {
+  position: relative;
+  width: calc(65.4 * var(--u));
+  height: calc(33 * var(--u));
+}
+
+.projects-pagination img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s;
+}
+
+.projects-pagination .bar-off { width: calc(56 * var(--u)); }
+.projects-pagination .bar-on { width: calc(63 * var(--u)); opacity: 0; }
+.projects-pagination .is-active .bar-off { opacity: 0; }
+.projects-pagination .is-active .bar-on { opacity: 1; }
+
+/* ---------- 정보 패널: 높이 고정, 항목은 겹쳐 두고 활성 항목만 표시 ---------- */
+
+.project-info {
+  position: absolute;
+  top: calc(753 * var(--u));
+  left: calc(32 * var(--u));
+  width: calc(1856 * var(--u));
+  height: calc(239 * var(--u));
+}
+
+.project-info-box {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.project-info-stack {
+  position: absolute;
+  top: calc(41 * var(--u));
+  left: calc(72 * var(--u));
+  right: 0;
+  bottom: 0;
+}
+
+.project-info-item {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translateY(calc(10 * var(--u)));
+  /* 사라질 때: 0.12초 페이드 후 시작 위치로 복귀 */
+  transition: opacity 0.12s linear, transform 0s linear 0.12s;
+  pointer-events: none;
+}
+
+.project-info-item.is-active {
+  opacity: 1;
+  transform: translateY(0);
+  /* 나타날 때: 이전 항목이 사라지는 동안 시작해 전체 0.3초 */
+  transition:
+    opacity 0.2s linear 0.1s,
+    transform 0.2s cubic-bezier(0.22, 1, 0.36, 1) 0.1s;
+}
+
+.project-info-image {
+  width: calc(var(--w) * var(--u));
+  height: auto;
+}
+
+.project-info-compact { display: none; }
+
+/* ---------- VIEW ARCHIVE ---------- */
+
+.project-archive {
+  position: absolute;
+  top: calc(130 * var(--u));
+  left: calc(1507 * var(--u));
+  display: block;
+  width: calc(306 * var(--u));
+  aspect-ratio: 306 / 67;
+  border-radius: calc(34 * var(--u));
+}
+
+.project-archive img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  transition: opacity 0.2s;
+}
+
+.project-archive .btn-on { opacity: 0; }
+.project-archive:hover .btn-on,
+.project-archive:focus-visible .btn-on { opacity: 1; }
+
+/* ---------- 태블릿: 카드 3개, 정보 패널 세로 배치 ---------- */
+
+@media (max-width: 1100px) {
+  .projects {
+    aspect-ratio: auto;
+    --u: 0.6px;
+  }
+
+  .projects-board {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 32px;
+  }
+
+  .projects-marquee { position: relative; flex: none; }
+
+  .projects-stage {
+    position: relative;
+    top: auto;
+    flex: none;
+    aspect-ratio: 1 / 0.52;
+    height: auto;
+  }
+
+  .project-card {
+    top: 48%;
+    width: 32%;
+  }
+
+  .projects-arrow {
+    top: calc(51 * var(--u) + 26vw);
+    width: 56px;
+    transform: translateY(-50%);
+  }
+
+  .projects-arrow.is-left { left: 16px; }
+  .projects-arrow.is-right { left: auto; right: 16px; }
+
+  .projects-pagination {
+    position: relative;
+    top: auto;
+    left: auto;
+    --u: 0.8px;
+  }
+
+  .project-info {
+    position: relative;
+    top: auto;
+    left: auto;
+    flex: none;
+    width: calc(100% - 32px);
+    height: 400px;
+    margin-top: 12px;
+    /* 박스 이미지를 늘리면 테두리가 뭉개져 같은 색으로 대체 */
+    border: 2px solid #6365a8;
+    border-radius: 8px;
+    background: rgb(24 19 42 / 0.8);
+    --u: 1px;
+  }
+
+  .project-info-box { display: none; }
+
+  .project-info-stack {
+    top: 24px;
+    right: 24px;
+    left: 24px;
+    bottom: 92px;
+  }
+
+  .project-info-image { display: none; }
+
+  .project-info-compact {
+    display: block;
+    color: #aca6d3;
+    font: 400 15px/1.55 Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui, sans-serif;
+    word-break: keep-all;
+  }
+
+  .project-info-compact h3 {
+    margin: 16px 0 8px;
+    color: #e8e0ff;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .project-info-compact p { margin: 0; }
+
+  .project-info-crop {
+    max-width: 100%;
+    width: calc(var(--split) * 1px);
+    overflow: hidden;
+  }
+
+  .project-info-crop img { max-width: none; height: auto; }
+
+  .project-archive {
+    top: auto;
+    right: 24px;
+    bottom: 20px;
+    left: auto;
+    width: 240px;
+    border-radius: 27px;
+  }
+}
+
+/* ---------- 모바일: 중앙 카드 1개 ---------- */
+
+@media (max-width: 640px) {
+  .projects { --u: 0.5px; }
+
+  .projects-stage { aspect-ratio: 1 / 1.08; }
+
+  .project-card {
+    top: 50%;
+    width: 68%;
+  }
+
+  .projects-arrow { display: none; }
+
+  .project-info { height: 470px; }
+
+  .project-archive {
+    right: 50%;
+    transform: translateX(50%);
+  }
+}
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .projects-marquee-track { animation: none; }
+
+  .project-info-item,
+  .project-info-item.is-active,
+  .projects-pagination img,
+  .project-archive img { transition: none; }
+}

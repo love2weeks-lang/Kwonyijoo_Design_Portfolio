@@ -1,0 +1,63 @@
+/* ---------- Profile ---------- */
+
+/* 표지와 같은 고정 규칙: 1920×1080(16:9) 디자인 전체를 잘림·여백 없이 페이지 가로 폭에 맞춰 표시 */
+.profile {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1920 / 1080;
+  overflow: hidden;
+  background: #181428;
+  outline: none;
+}
+
+.profile h2 { font-size: inherit; }
+
+.profile h2 img { width: 100%; height: auto; }
+
+/* profileTXT.png(높이 111px): 타이틀은 0~99px, 구분선은 109~110px */
+.profile-title-img { clip-path: inset(0 0 10.811% 0); }
+.profile-line { clip-path: inset(94.595% 0 0 0); }
+
+/* ---------- Reveal (전체 약 2.34초) ---------- */
+
+/* 등장 전에도 공간은 유지되고 보이지만 않음 */
+.js .profile:not(.is-revealed) [data-reveal] { opacity: 0; }
+
+.profile.is-revealed [data-reveal] {
+  animation: profile-rise var(--duration) cubic-bezier(0.22, 1, 0.36, 1) var(--delay) both;
+}
+
+.profile.is-revealed [data-reveal="line"] {
+  animation-name: profile-line;
+  transform-origin: left;
+}
+
+/* --rise: 1920 기준 px, 화면 폭에 비례해 함께 줄어듦 */
+@keyframes profile-rise {
+  from { opacity: 0; transform: translateY(calc(var(--rise) * 100vw / 1920)); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes profile-line {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+/* STEP 01 ~ 03 */
+[data-reveal="title"] { --delay: 0s;    --duration: 0.5s;  --rise: 20; }
+[data-reveal="line"]  { --delay: 0.4s;  --duration: 0.7s; }
+[data-reveal="card"]  { --delay: 0.95s; --duration: 0.65s; --rise: 30; }
+
+/* STEP 04: 열 안에서 0.12초 간격, 중앙과 오른쪽은 0.06초 어긋나게 겹침 */
+[data-reveal="education"] { --delay: 1.6s;  --duration: 0.5s; --rise: 20; }
+[data-reveal="career"]    { --delay: 1.66s; --duration: 0.5s; --rise: 20; }
+[data-reveal="awards"]    { --delay: 1.72s; --duration: 0.5s; --rise: 20; }
+[data-reveal="projects"]  { --delay: 1.78s; --duration: 0.5s; --rise: 20; }
+[data-reveal="focus"]     { --delay: 1.84s; --duration: 0.5s; --rise: 20; }
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .js .profile:not(.is-revealed) [data-reveal] { opacity: 1; }
+  .profile.is-revealed [data-reveal] { animation: none; }
+}

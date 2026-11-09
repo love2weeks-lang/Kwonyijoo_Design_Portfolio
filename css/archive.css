@@ -1,0 +1,420 @@
+/* ---------- Archive (#/archive/<id>) ---------- */
+
+/* 아카이브를 여는 동안 메인 섹션은 숨긴다 */
+html.in-archive main:not(.archive-list) { display: none; }
+html.in-archive body { background: #18132b; }
+
+/* 팝업으로 스크롤을 잠가도 스크롤바 자리가 그대로 남아 헤더 보라색 박스 폭이 바뀌지 않게 */
+html.in-archive { scrollbar-gutter: stable; }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* --u: 시안 1px. 1920px보다 넓으면 원본 크기, 좁으면 비율대로 축소 */
+.archive {
+  --u: min(1px, 100vw / 1920);
+  min-height: 100vh;
+  /* 세로 스크롤바 폭만큼 1920 기준 헤더가 넘쳐도 가로 스크롤이 생기지 않게 (sticky는 유지) */
+  overflow-x: clip;
+  background: #18132b;
+}
+
+.archive button,
+.archive a {
+  display: block;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: inherit;
+}
+
+.archive :focus { outline: none; }
+
+.archive :focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+/* ---------- 헤더: 스크롤해도 상단에 고정 ---------- */
+
+.archive-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: calc(80 * var(--u));
+}
+
+.archive-header-box {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* 카드 목록과 같은 중심선에 맞춘다 */
+.archive-header-inner {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: calc(1920 * var(--u));
+  height: 100%;
+  transform: translateX(-50%);
+}
+
+.archive-back {
+  position: absolute;
+  top: calc(15 * var(--u));
+  left: calc(50 * var(--u));
+  width: calc(49 * var(--u));
+  border-radius: 50%;
+}
+
+.archive-back img { width: 100%; height: auto; }
+
+.archive-nav {
+  position: absolute;
+  top: calc(28 * var(--u));
+  left: calc(222 * var(--u));
+  width: calc(1469 * var(--u));
+  height: calc(23 * var(--u));
+}
+
+.archive-nav-text { width: 100%; height: 100%; }
+
+.archive-nav-item {
+  position: absolute;
+  top: calc(-12 * var(--u));
+  left: calc(var(--x) * var(--u));
+  width: calc(var(--w) * var(--u));
+  height: calc(47 * var(--u));
+}
+
+/* ---------- 카드: 썸네일 이미지 전체 영역 기준 120px 간격 ---------- */
+
+/* --shift: 시안의 카드 x가 정중앙(238px)에서 벗어난 만큼 (archives.js shiftX) */
+.archive-list {
+  position: relative;
+  left: calc(var(--shift, 0) * var(--u));
+  display: block;
+  width: calc(1444 * var(--u));
+  margin: 0 auto;
+  /* 헤더~첫 카드, 카드~카드, 마지막 카드~페이지 끝 빈 영역 모두 120px */
+  padding: calc(120 * var(--u)) 0;
+}
+
+.archive-card {
+  position: relative;
+  width: 100%;
+}
+
+.archive-card + .archive-card { margin-top: calc(120 * var(--u)); }
+
+.archive-thumb {
+  width: calc(var(--w) * var(--u));
+  max-width: none;
+  height: auto;
+  margin-left: calc(var(--offset) * var(--u));
+}
+
+.archive-full {
+  position: absolute;
+  right: calc(41 * var(--u));
+  bottom: calc(44 * var(--u));
+  width: calc(285 * var(--u));
+  aspect-ratio: 285 / 68;
+  border-radius: calc(34 * var(--u));
+}
+
+.archive-full img,
+.thumb-arrow img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+}
+
+.archive-full img { transition: opacity 0.2s; }
+.archive-full .btn-on { opacity: 0; }
+.archive-full:hover .btn-on,
+.archive-full:focus-visible .btn-on { opacity: 1; }
+
+/* ---------- 썸네일 안 슬라이드: 모든 좌표는 썸네일 기준 px (--x, --y, --w, --h) ---------- */
+
+.thumb-carousel {
+  position: absolute;
+  top: 0;
+  left: calc(var(--offset, 0) * var(--u));
+  width: 0;
+  height: 0;
+}
+
+.thumb-cover,
+.thumb-layer,
+.thumb-dots {
+  position: absolute;
+  top: calc(var(--y) * var(--u));
+  left: calc(var(--x) * var(--u));
+  width: calc(var(--w) * var(--u));
+  height: calc(var(--h) * var(--u));
+}
+
+.thumb-layer { max-width: none; }
+
+.thumb-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.thumb-slide.is-active { opacity: 1; }
+
+.thumb-arrow {
+  position: absolute;
+  top: calc(var(--y) * var(--u));
+  left: calc(var(--x) * var(--u));
+  width: calc(71 * var(--u));
+  aspect-ratio: 71 / 72;
+  border-radius: 50%;
+}
+
+/* 드래그·스와이프·휠을 받는 영역. 터치의 세로 스크롤은 페이지로 */
+.thumb-swipe {
+  position: absolute;
+  top: calc(var(--y) * var(--u));
+  left: calc(var(--x) * var(--u));
+  width: calc(var(--w) * var(--u));
+  height: calc(var(--h) * var(--u));
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* 점: (--dx, --dy)를 중심으로, 이미지에서 원형으로 잘라 낸 활성·비활성 점을 올린다 */
+.thumb-dot {
+  position: absolute;
+  top: calc(var(--dy) * var(--u));
+  left: calc(var(--dx) * var(--u));
+  width: 0;
+  height: 0;
+}
+
+.thumb-dot::before {
+  content: '';
+  position: absolute;
+  inset: calc(-9 * var(--u));
+}
+
+.thumb-dot-crop {
+  position: absolute;
+  top: calc(var(--size) / -2 * var(--u));
+  left: calc(var(--size) / -2 * var(--u));
+  width: calc(var(--size) * var(--u));
+  height: calc(var(--size) * var(--u));
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.thumb-dot-crop img {
+  position: absolute;
+  top: calc((var(--size) / 2 - var(--cy)) * var(--u));
+  left: calc((var(--size) / 2 - var(--cx)) * var(--u));
+  width: calc(var(--img-w) * var(--u));
+  max-width: none;
+  height: calc(var(--img-h) * var(--u));
+}
+
+/* ---------- 상세 팝업 (시안 1444px 프레임 기준) ---------- */
+
+.popup-layer {
+  --p: min(1px, (100vw - 32px) / 1444);
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  background: rgb(8 6 18 / 0.75);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.popup-layer.is-visible { opacity: 1; }
+
+.popup {
+  position: relative;
+  width: calc(1444 * var(--p));
+  height: calc(100dvh - 2 * max(16px, 40 * var(--p)));
+  overflow: hidden;
+  border: calc(2 * var(--p)) solid rgb(81 85 110 / 0.85);
+  border-radius: calc(20 * var(--p));
+  background: #0f0a21;
+}
+
+.popup button {
+  position: absolute;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: inherit;
+}
+
+.popup button img { width: 100%; height: auto; }
+
+.popup :focus { outline: none; }
+
+.popup :focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+/* --cw: 팝업 이미지 원본 너비 (테일즈런너 1152, 리니지 960). 프레임 가운데에 두고 스크롤바는 오른쪽 20px 옆 */
+.popup-scroller {
+  position: absolute;
+  top: calc(100 * var(--p));
+  /* 시안 좌표는 테두리(2px) 바깥 기준이라 테두리만큼 뺀다 */
+  left: calc(((1444 - var(--cw)) / 2 - 2) * var(--p));
+  width: calc(var(--cw) * var(--p));
+  bottom: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+}
+
+.popup-scroller::-webkit-scrollbar { display: none; }
+
+.popup-content img {
+  width: 100%;
+  height: auto;
+}
+
+.popup-close {
+  top: calc(31 * var(--p));
+  left: calc(31 * var(--p));
+  width: calc(28 * var(--p));
+}
+
+.popup-close::before,
+.popup-dot::before {
+  content: '';
+  position: absolute;
+  inset: -12px;
+}
+
+.popup-arrow {
+  top: 50%;
+  width: calc(71 * var(--p));
+  min-width: 32px;
+  border-radius: 50%;
+  transform: translateY(-50%);
+}
+
+.popup-arrow.is-left { left: calc(37 * var(--p)); }
+.popup-arrow.is-right { right: calc(37 * var(--p)); }
+
+.popup-track {
+  position: absolute;
+  top: calc(100 * var(--p));
+  bottom: calc(40 * var(--p));
+  left: calc(((1444 - var(--cw)) / 2 + var(--cw) + 18) * var(--p));
+  width: calc(12 * var(--p));
+}
+
+.popup-thumb {
+  width: 100%;
+  height: auto;
+  touch-action: none;
+}
+
+/* ---------- TOP: 아카이브 페이지 전체 스크롤용, 화면 오른쪽 아래 고정 ---------- */
+
+.archive .archive-top {
+  position: fixed;
+  right: max(16px, calc(40 * var(--u)));
+  bottom: max(16px, calc(40 * var(--u)));
+  z-index: 60;
+  width: max(44px, calc(83 * var(--u)));
+  border-radius: calc(12 * var(--u));
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s, visibility 0s linear 0.2s;
+}
+
+.archive .archive-top.is-shown {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.2s;
+}
+
+.archive-top img { width: 100%; height: auto; }
+
+/* ---------- 태블릿·모바일 ---------- */
+
+@media (max-width: 1100px) {
+  .archive { --u: calc((100vw - 32px) / 1444); }
+
+  /* 헤더는 읽을 수 있는 크기로 두고 가로로 넘긴다 */
+  .archive-header { height: 56px; }
+
+  .archive-header-inner {
+    --u: 0.7px;
+    left: 0;
+    width: 100%;
+    transform: none;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .archive-header-inner::-webkit-scrollbar { display: none; }
+
+  .archive-back {
+    position: sticky;
+    z-index: 1;
+    top: auto;
+    left: 12px;
+    width: 34px;
+    margin-top: 11px;
+  }
+
+  .archive-nav {
+    top: 20px;
+    left: 64px;
+  }
+
+}
+
+@media (max-width: 640px) {
+  /* 버튼이 하단 정보 영역과 겹치지 않도록 카드 아래로 */
+  .archive-full {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    width: 200px;
+    margin: 12px 0 0 auto;
+    border-radius: 24px;
+  }
+
+  /* 화살표 최소 크기(32px)가 이미지 영역을 덮지 않도록 바깥쪽으로 */
+  .popup-arrow.is-left { left: 2px; }
+  .popup-arrow.is-right { right: 2px; }
+}
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .popup-layer,
+  .archive-full img,
+  .thumb-slide,
+  .archive .archive-top,
+  .archive .archive-top.is-shown { transition: none; }
+}

@@ -1,0 +1,123 @@
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html, body { margin: 0; }
+
+/* 페이지 어디서든 마우스를 따라다니는 클릭 아이콘. 화살표 끝이 (0, 0) */
+html { cursor: url("../click.png") 0 0, auto; }
+
+body {
+  background: #593fba;
+}
+
+img { display: block; }
+
+/* ---------- Cover ---------- */
+
+/* 고정 규칙: 1920×1080(16:9) 디자인 전체를 잘림·여백 없이 페이지 가로 폭에 맞춰 표시.
+   화면이 16:9보다 가로로 넓으면 세로 스크롤로 나머지를 본다. */
+.cover {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1920 / 1080;
+  overflow: hidden;
+}
+
+.artboard {
+  position: absolute;
+  inset: 0;
+  contain: layout paint;
+}
+
+/* --x, --y, --w, --h: 1920×1080 기준 px 값 */
+.layer {
+  position: absolute;
+  left: calc(var(--x) / 1920 * 100%);
+  top: calc(var(--y) / 1080 * 100%);
+  width: calc(var(--w) / 1920 * 100%);
+  height: auto;
+  margin: 0;
+}
+
+/* ---------- 프레임 시퀀스 (Eye Blink, Battery) ---------- */
+
+.frames {
+  aspect-ratio: var(--w) / var(--h);
+  contain: strict;
+}
+
+.frames > .frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  visibility: hidden;
+}
+
+.frames > .frame.is-active { visibility: visible; }
+
+/* ---------- Title Reveal ---------- */
+
+.title-wrap { font-size: inherit; }
+
+.title { width: 100%; height: auto; }
+
+/* 35px(1920 기준) = 이미지 높이 386px의 9.067% */
+.js .title {
+  opacity: 0;
+  transform: translateY(9.067%);
+}
+
+.js .title.is-revealed {
+  animation: title-reveal 0.9s ease-out forwards;
+}
+
+.js .title.is-shown {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes title-reveal {
+  from { opacity: 0; transform: translateY(9.067%); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- Scroll Down ---------- */
+
+.scroll-down {
+  display: block;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  cursor: inherit;
+  animation: scroll-blink 1.4s ease-in-out infinite;
+  outline: none;
+}
+
+.scroll-down img { width: 100%; height: auto; }
+
+.scroll-down:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+
+@keyframes scroll-blink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.35; }
+}
+
+/* 탭 비활성화 시 일시 정지 */
+.is-page-hidden .scroll-down { animation-play-state: paused; }
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  /* 처음부터 뜬 눈으로 고정 (감은 프레임으로 시작하지 않음) */
+  .eye > .frame.is-active { visibility: hidden; }
+  .eye > .frame:first-child { visibility: visible; }
+  .scroll-down { animation: none; }
+  .js .title.is-revealed { animation: none; opacity: 1; transform: none; }
+}

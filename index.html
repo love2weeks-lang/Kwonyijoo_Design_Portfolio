@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KWON YIJOO Portfolio</title>
+  <script>document.documentElement.classList.add('js');</script>
+  <!-- 모든 프레임 사전 로딩 -->
+  <link rel="preload" as="image" href="EYE_01.png">
+  <link rel="preload" as="image" href="EYE_02.png">
+  <link rel="preload" as="image" href="EYE_03.png">
+  <link rel="preload" as="image" href="EYE_04.png">
+  <link rel="preload" as="image" href="title.png">
+  <link rel="preload" as="image" href="click.png">
+  <link rel="stylesheet" href="css/cover.css">
+  <link rel="stylesheet" href="css/profile.css">
+  <link rel="stylesheet" href="css/projects.css">
+  <link rel="stylesheet" href="css/archive.css">
+  <script type="module" src="js/main.js"></script>
+  <script type="module" src="js/projects/mount.jsx"></script>
+  <script type="module" src="js/archive/mount.jsx"></script>
+</head>
+<body>
+  <main>
+    <section class="cover" aria-label="표지">
+      <!-- 1920×1080 아트보드. 좌표는 PF_cover_수정.jpg 기준 -->
+      <div class="artboard">
+        <img class="layer bg" src="BG.png" alt="" style="--x:0; --y:0; --w:1920">
+
+        <div class="layer frames eye" data-eye-blink style="--x:102; --y:65; --w:1716; --h:949">
+          <img class="frame" src="EYE_01.png" alt="">
+          <img class="frame" src="EYE_02.png" alt="">
+          <img class="frame" src="EYE_03.png" alt="">
+          <img class="frame is-active" src="EYE_04.png" alt="">
+        </div>
+
+        <img class="layer" src="KWON%20YIJOO%20PORTFOLIO.png" alt="KWON YIJOO PORTFOLIO" style="--x:153; --y:134; --w:330">
+        <img class="layer" src="VISUAL%20CONTENT%20DESIGNER.png" alt="VISUAL CONTENT DESIGNER" style="--x:1398; --y:134; --w:363">
+
+        <div class="layer frames battery" data-battery style="--x:153; --y:165; --w:78; --h:35" aria-hidden="true">
+          <img class="frame" src="ui_battery_0.png" alt="">
+          <img class="frame" src="ui_battery_1.png" alt="">
+          <img class="frame" src="ui_battery_2.png" alt="">
+          <img class="frame" src="ui_battery_3.png" alt="">
+          <img class="frame" src="ui_battery_4.png" alt="">
+          <img class="frame" src="ui_battery_5.png" alt="">
+          <img class="frame is-active" src="ui_battery_6.png" alt="">
+        </div>
+
+        <h1 class="layer title-wrap" style="--x:473; --y:310; --w:973">
+          <img class="title" data-title-reveal src="title.png" alt="Focus on me">
+        </h1>
+
+        <button class="layer scroll-down" type="button" data-scroll-down aria-label="다음 섹션으로 스크롤" style="--x:860; --y:903; --w:204">
+          <img src="scroll%20down.png" alt="">
+        </button>
+      </div>
+    </section>
+
+    <section class="profile" aria-label="프로필" data-profile-reveal>
+      <!-- 1920×1080 아트보드. 좌표는 profile/profile_full.jpg 기준 -->
+      <div class="artboard">
+        <img class="layer" src="profile/BG.png" alt="" style="--x:0; --y:0; --w:1920">
+
+        <!-- profileTXT.png 한 장에 타이틀과 구분선이 함께 있어 clip-path로 나눠 따로 재생 -->
+        <h2 class="layer" data-reveal="title" style="--x:111; --y:73; --w:1697">
+          <img class="profile-title-img" src="profile/profileTXT.png" alt="PROFILE">
+        </h2>
+        <img class="layer profile-line" data-reveal="line" src="profile/profileTXT.png" alt="" style="--x:111; --y:73; --w:1697">
+
+        <img class="layer" data-reveal="card" src="profile/profile_photo.png" style="--x:108; --y:240; --w:377"
+          alt="권이주 프로필 사진. 2002.01.30, 010-8307-7039, love2weeks@gmail.com">
+
+        <img class="layer" data-reveal="education" src="profile/education.png" style="--x:612; --y:240; --w:526"
+          alt="Education: 용인예술과학대 시각디자인학과 졸업(학사) 2026, 용인예술과학대 시각디자인과 졸업(전문학사) 2024, 예일디자인고등학교 졸업 2021">
+        <img class="layer" data-reveal="awards" src="profile/awards.png" style="--x:612; --y:448; --w:526"
+          alt="Awards: 제 59회 경기디자인대전 입선 2023, 커뮤니케이션 국제공모전 동상 2023, 제 44회 현대미술대전 입선[2점] 2023, 은평구 주민자치회 로고 공모전 입선 2022">
+        <img class="layer" data-reveal="focus" src="profile/focuson.png" style="--x:612; --y:685; --w:526"
+          alt="Focus on: CONCEPT 콘셉트 방향 구체화, VISUAL 비주얼 확장, EXPERIENCE 시선 흐름 설계">
+
+        <img class="layer" data-reveal="career" src="profile/career.png" style="--x:1280; --y:240; --w:528"
+          alt="Career: 블로믹스 게임사업본부 디자인팀 주임 2026, 더플레이어 제작국 Design&amp;Art팀 사원 2024~2026">
+        <img class="layer" data-reveal="projects" src="profile/projects.png" style="--x:1280; --y:448; --w:528"
+          alt="Main Projects: 테일즈런너 랜딩페이지 비주얼 기획 및 UI 디자인 2026, 리니지 리마스터 보상 배너 제안 수주 기여·업데이트 노트 연간 운영 2024~2026, 알케론 키비주얼 제안 수주 기여·런칭 광고 소재 제작 및 집행 2025~2026, 신월동행 런칭 배너 제안 수주 기여·런칭 광고 소재 제작 및 집행 2024~2025, 카오스 제로 나이트메어 런칭 배너 제안 수주 기여·런칭 광고 소재 제작 및 집행 2024~2025, 배틀그라운드 업데이트 캠페인 광고 소재 제작 및 집행 2024~2025">
+      </div>
+    </section>
+
+    <!-- SELECT PROJECTS: React (js/projects) -->
+    <section id="select-projects" class="projects" aria-label="SELECT PROJECTS"></section>
+  </main>
+
+  <!-- ARCHIVE: React (js/archive), 해시 라우트 #/archive/<id> -->
+  <div id="archive-root"></div>
+</body>
+</html>
