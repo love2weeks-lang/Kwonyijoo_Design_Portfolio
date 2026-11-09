@@ -304,7 +304,9 @@ html.in-archive { scrollbar-gutter: stable; }
   width: calc(28 * var(--p));
 }
 
+/* 모바일에서 작게 축소돼도 손가락으로 누르기 쉽게 보이지 않는 터치 영역을 넓힌다 */
 .popup-close::before,
+.popup-arrow::before,
 .popup-dot::before {
   content: '';
   position: absolute;
@@ -314,7 +316,6 @@ html.in-archive { scrollbar-gutter: stable; }
 .popup-arrow {
   top: 50%;
   width: calc(71 * var(--p));
-  min-width: 32px;
   border-radius: 50%;
   transform: translateY(-50%);
 }
@@ -340,10 +341,10 @@ html.in-archive { scrollbar-gutter: stable; }
 
 .archive .archive-top {
   position: fixed;
-  right: max(16px, calc(40 * var(--u)));
-  bottom: max(16px, calc(40 * var(--u)));
+  right: calc(40 * var(--u));
+  bottom: calc(40 * var(--u));
   z-index: 60;
-  width: max(44px, calc(83 * var(--u)));
+  width: calc(83 * var(--u));
   border-radius: calc(12 * var(--u));
   opacity: 0;
   visibility: hidden;
@@ -358,6 +359,17 @@ html.in-archive { scrollbar-gutter: stable; }
 
 .archive-top img { width: 100%; height: auto; }
 
+.archive .archive-top::before,
+.archive-back::before,
+.archive-full::before,
+.thumb-arrow::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+}
+
+.archive-back::before { border-radius: 50%; }
+
 /* 마우스 오버 시 #f8f5ff 이미지로 */
 .archive-top .top-on {
   position: absolute;
@@ -369,57 +381,6 @@ html.in-archive { scrollbar-gutter: stable; }
 
 .archive-top:hover .top-on,
 .archive-top:focus-visible .top-on { opacity: 1; }
-
-/* ---------- 태블릿·모바일 ---------- */
-
-@media (max-width: 1100px) {
-  .archive { --u: calc((100vw - 32px) / 1444); }
-
-  /* 헤더는 읽을 수 있는 크기로 두고 가로로 넘긴다 */
-  .archive-header { height: 56px; }
-
-  .archive-header-inner {
-    --u: 0.7px;
-    left: 0;
-    width: 100%;
-    transform: none;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-
-  .archive-header-inner::-webkit-scrollbar { display: none; }
-
-  .archive-back {
-    position: sticky;
-    z-index: 1;
-    top: auto;
-    left: 12px;
-    width: 34px;
-    margin-top: 11px;
-  }
-
-  .archive-nav {
-    top: 20px;
-    left: 64px;
-  }
-
-}
-
-@media (max-width: 640px) {
-  /* 버튼이 하단 정보 영역과 겹치지 않도록 카드 아래로 */
-  .archive-full {
-    position: relative;
-    right: auto;
-    bottom: auto;
-    width: 200px;
-    margin: 12px 0 0 auto;
-    border-radius: 24px;
-  }
-
-  /* 화살표 최소 크기(32px)가 이미지 영역을 덮지 않도록 바깥쪽으로 */
-  .popup-arrow.is-left { left: 2px; }
-  .popup-arrow.is-right { right: 2px; }
-}
 
 /* ---------- Reduced motion ---------- */
 

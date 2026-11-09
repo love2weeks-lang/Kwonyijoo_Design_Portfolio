@@ -22,22 +22,8 @@ const SLOTS = {
     { x: 760, y: 26.5, scale: 0.874, dim: 0.8, opacity: 1 },
     { x: 1100, y: 26.5, scale: 0.8, dim: 0.8, opacity: 0 },
   ],
-  tablet: [
-    { x: 0, y: 0, scale: 1, dim: 0, opacity: 1 },
-    { x: 392, y: 19, scale: 0.9554, dim: 0.5, opacity: 1 },
-    { x: 760, y: 26.5, scale: 0.874, dim: 0.8, opacity: 0 },
-    { x: 1100, y: 26.5, scale: 0.8, dim: 0.8, opacity: 0 },
-  ],
-  mobile: [
-    { x: 0, y: 0, scale: 1, dim: 0, opacity: 1 },
-    { x: 392, y: 19, scale: 0.9554, dim: 0.5, opacity: 0 },
-    { x: 760, y: 26.5, scale: 0.874, dim: 0.8, opacity: 0 },
-    { x: 1100, y: 26.5, scale: 0.8, dim: 0.8, opacity: 0 },
-  ],
 };
 
-const TABLET_QUERY = '(max-width: 1100px)';
-const MOBILE_QUERY = '(max-width: 640px)';
 const REDUCED_QUERY = '(prefers-reduced-motion: reduce)';
 
 const mod = (value, size) => ((value % size) + size) % size;
@@ -55,12 +41,6 @@ function easeOut(t) {
     u -= (axis(x1, x2, u) - t) / dx;
   }
   return axis(y1, y2, u);
-}
-
-function currentSlots() {
-  if (window.matchMedia(MOBILE_QUERY).matches) return SLOTS.mobile;
-  if (window.matchMedia(TABLET_QUERY).matches) return SLOTS.tablet;
-  return SLOTS.desktop;
 }
 
 function slotAt(slots, rel) {
@@ -254,19 +234,10 @@ export function useCarousel(projects) {
     return () => stage.removeEventListener('wheel', onWheel);
   }, [step]);
 
-  // 초기 배치 + 브레이크포인트 변경
+  // 초기 배치. 모바일도 같은 배치를 비율대로 축소만 한다
   useLayoutEffect(() => {
-    const update = () => {
-      slots.current = currentSlots();
-      render();
-    };
-    update();
-    const queries = [TABLET_QUERY, MOBILE_QUERY].map((query) => window.matchMedia(query));
-    queries.forEach((query) => query.addEventListener('change', update));
-    return () => {
-      queries.forEach((query) => query.removeEventListener('change', update));
-      cancelAnimationFrame(tween.current);
-    };
+    render();
+    return () => cancelAnimationFrame(tween.current);
   }, [render]);
 
   const setCardRef = useCallback((index) => (node) => {
