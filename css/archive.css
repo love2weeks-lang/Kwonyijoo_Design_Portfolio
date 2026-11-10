@@ -170,15 +170,15 @@ html.in-archive { scrollbar-gutter: stable; }
 
 .thumb-layer { max-width: none; }
 
+/* 넘길 때 페이드 같은 등장 효과 없이 바로 바뀐다 */
 .thumb-slide {
   position: absolute;
   top: 0;
   left: 0;
-  opacity: 0;
-  transition: opacity 0.25s;
+  visibility: hidden;
 }
 
-.thumb-slide.is-active { opacity: 1; }
+.thumb-slide.is-active { visibility: visible; }
 
 .thumb-arrow {
   position: absolute;
@@ -388,7 +388,6 @@ html.in-archive { scrollbar-gutter: stable; }
   .popup-layer,
   .archive-full img,
   .archive-top .top-on,
-  .thumb-slide,
   .archive .archive-top,
   .archive .archive-top.is-shown { transition: none; }
 }

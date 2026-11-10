@@ -32,7 +32,7 @@ const TALES_RUNNER = {
       title: '21주년 파티 랜딩페이지 TAB 1~2',
       description:
         '개발사 검수에서 수정 없이 최초 승인받았으며, 제작한 디자인과 그래픽 소스는 후속 홍보 콘텐츠의 제작 가이드로 활용되었습니다. AI를 활용해 초기 톤앤매너와 그래픽 구도를 검토하고, 인게임의 21주년 기념 케이크를 모티브로 메인 그래픽과 디저트 컨셉의 UI를 직접 제작했습니다. 팝업 및 인터랙션 리소스는 피그마 컴포넌트로 분리하여 전달해 개발 연계를 지원했습니다.',
-      thumb: image(new URL('../../archive/01_테일즈런너/테런_1_21주년 썸네일.png', import.meta.url).href, 1444, 1181),
+      thumb: image(new URL('../../archive/01_테일즈런너/테런_1_21주년 썸네일.png', import.meta.url).href, 1465, 1181),
       offsetX: 0,
       info: { date: '2026.09', period: '8일', contribution: '100%', tools: ['Photoshop', 'Illustrator', 'Figma'], ai: '레퍼런스 탐색 · 그래픽 구도 시뮬레이션' },
       pages: [
@@ -53,7 +53,7 @@ const TALES_RUNNER = {
       title: '슈가슈가룬 콜라보 랜딩페이지 TAB 1~3',
       description:
         '슈가슈가룬 IP의 세계관과 캐릭터별 특성을 사전 분석해 [피에르와 티타임] 웹 이벤트의 스토리보드 기획을 주도했으며, IP에 대한 높은 이해도를 바탕으로 원작사 검수를 수정 없이 통과했습니다. 원작 디자인 가이드를 준수해 AI 없이 마법소녀 특유의 비주얼을 직접 구현했습니다. 또한 키비주얼 모션 스펙 문서를 작성해 원활한 개발 협업에 기여했습니다.',
-      thumb: image(new URL('../../archive/01_테일즈런너/테런_2_슈가슈가룬 썸네일.png', import.meta.url).href, 1459, 1184),
+      thumb: image(new URL('../../archive/01_테일즈런너/테런_2_슈가슈가룬 썸네일.png', import.meta.url).href, 1446, 1184),
       offsetX: -1,
       info: { date: '2026.08', period: '16일', contribution: '100%', tools: ['Photoshop', 'Illustrator', 'Figma'], ai: 'X' },
       pages: [
@@ -80,7 +80,7 @@ const TALES_RUNNER = {
       title: '대구콘텐츠페어 행사 안내 랜딩페이지',
       description:
         '대구콘텐츠페어 공식 포스터의 사이버틱한 무드를 재해석해 키비주얼 그래픽을 제작했습니다. 네온 컬러와 게임 UI 형태의 프레임을 활용해 콘셉트의 일관성을 유지하고, 섹션별 컬러 구분으로 정보 가독성을 높였습니다. 키비주얼 타이틀은 AI를 활용해 메탈릭 효과를 디벨롭하며 비주얼 완성도를 높였습니다.',
-      thumb: image(new URL('../../archive/01_테일즈런너/테런_3_대구콘텐츠페어 썸네일.png', import.meta.url).href, 1444, 1179),
+      thumb: image(new URL('../../archive/01_테일즈런너/테런_3_대구콘텐츠페어 썸네일.png', import.meta.url).href, 1444, 1140),
       offsetX: 0,
       info: { date: '2026.09', period: '5일', contribution: '100%', tools: ['Photoshop', 'Illustrator', 'Figma'], ai: '키비주얼 타이틀 메탈릭 효과 구현' },
       pages: [
@@ -121,7 +121,7 @@ const TALES_RUNNER = {
       title: '런너의 옷장 2026 1~3Q',
       description:
         '정기 업데이트에 맞춰 신규 코스튬을 소개하는 프로모션 페이지를 제작했습니다. 코스튬별 컨셉을 반영한 타이틀과 배경 그래픽으로 각 업데이트의 개성을 살리고, 기존 UI 가이드에 맞춰 콘텐츠를 구성해 전체 페이지의 일관성을 유지했습니다.',
-      thumb: image(new URL('../../archive/01_테일즈런너/테런_5_런너의옷장 썸네일.png', import.meta.url).href, 1444, 1139),
+      thumb: image(new URL('../../archive/01_테일즈런너/테런_5_런너의옷장 썸네일.png', import.meta.url).href, 1484, 1139),
       offsetX: 0,
       info: { date: '', period: '각 1~1.5일', contribution: '100%', tools: ['Photoshop', 'Illustrator', 'Figma'], ai: 'X' },
       /*

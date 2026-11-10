@@ -2,9 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { UI } from './archives.js';
 
 const SWIPE_MIN_PX = 40;
-const WHEEL_STEP_PX = 40;
-const WHEEL_GESTURE_GAP_MS = 120;
-const WHEEL_GESTURE_MAX_MS = 600;
 
 // 썸네일 기준 px 좌표를 CSS 변수로
 const place = ({ x, y, w, h }) => ({ '--x': x, '--y': y, '--w': w, '--h': h });
@@ -42,7 +39,10 @@ function Dots({ dots, count, index, onChange }) {
   );
 }
 
-/** 마우스 드래그·터치 스와이프와 휠·트랙패드(가로·세로 모두)로 슬라이드를 넘긴다 */
+/**
+ * 직접 끌어서(마우스 드래그·터치 스와이프)만 슬라이드를 넘긴다.
+ * 마우스 휠·트랙패드 스크롤은 슬라이드를 넘기지 않고 페이지 스크롤로 그대로 둔다.
+ */
 function useSwipe(ref, go) {
   const goRef = useRef(go);
   goRef.current = go;
@@ -50,9 +50,6 @@ function useSwipe(ref, go) {
   useEffect(() => {
     const node = ref.current;
     let start = null;
-    let accumulated = 0;
-    let lastWheel = 0;
-    let lockedAt = 0;
 
     const onDown = (event) => {
       if (event.pointerType === 'mouse' && event.button !== 0) return;
@@ -67,36 +64,13 @@ function useSwipe(ref, go) {
     };
     const onCancel = () => { start = null; };
 
-    const onWheel = (event) => {
-      // 더 크게 움직인 축을 쓴다. 세로 휠 아래 = 다음, 위 = 이전
-      const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
-      if (!delta) return;
-      event.preventDefault();
-      const now = event.timeStamp;
-      if (now - lastWheel > WHEEL_GESTURE_GAP_MS) {
-        accumulated = 0;
-        lockedAt = 0;
-      }
-      lastWheel = now;
-      // 관성 스크롤로 한 번의 제스처가 여러 장 넘어가지 않게 잠금
-      if (lockedAt && now - lockedAt < WHEEL_GESTURE_MAX_MS) return;
-      accumulated += delta;
-      if (Math.abs(accumulated) >= WHEEL_STEP_PX) {
-        goRef.current(Math.sign(accumulated));
-        accumulated = 0;
-        lockedAt = now;
-      }
-    };
-
     node.addEventListener('pointerdown', onDown);
     window.addEventListener('pointerup', onUp);
     window.addEventListener('pointercancel', onCancel);
-    node.addEventListener('wheel', onWheel, { passive: false });
     return () => {
       node.removeEventListener('pointerdown', onDown);
       window.removeEventListener('pointerup', onUp);
       window.removeEventListener('pointercancel', onCancel);
-      node.removeEventListener('wheel', onWheel);
     };
   }, [ref]);
 }
@@ -131,7 +105,7 @@ function ThumbCarousel({ title, carousel, offsetX, index, onChange }) {
                 style={place(item)}
                 src={item.src}
                 alt={active && imageIndex === 0 ? `${title} ${slideName(slide, slideIndex)}` : ''}
-                loading="lazy"
+                loading="eager"
                 draggable={false}
               />
             ))}
