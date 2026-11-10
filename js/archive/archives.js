@@ -129,6 +129,8 @@ const TALES_RUNNER = {
        * page: 같은 회차의 상세 페이지(pages) 인덱스
        */
       carousel: {
+        // 썸네일에 그려진 첫 슬라이드가 축소 표시 때 위아래 가장자리로 비치지 않게 1px씩 더 덮는다 (바깥은 같은 #03010c)
+        cover: { x: 2, y: 288, w: 1440, h: 586, color: '#03010c' },
         slides: [
           { images: [rect(new URL('../../archive/01_테일즈런너/5_런너의옷장/썸네일06.png', import.meta.url).href, 2, 289, 1440, 584)], page: 5 },
           { images: [rect(new URL('../../archive/01_테일즈런너/5_런너의옷장/썸네일05.png', import.meta.url).href, 2, 289, 1440, 584)], page: 4 },
