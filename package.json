@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 5173 --strictPort",
-    "build": "vite build",
+    "build": "vite build && node scripts/compress-dist.mjs",
     "preview": "vite preview --host 127.0.0.1 --port 5173 --strictPort"
   },
   "dependencies": {
@@ -14,6 +14,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^6.2.1",
+    "sharp": "^0.34.4",
     "vite": "^8.3.6"
   }
 }

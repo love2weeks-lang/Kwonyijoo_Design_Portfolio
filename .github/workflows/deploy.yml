@@ -41,5 +41,5 @@ jobs:
       - id: deployment
         uses: actions/deploy-pages@v4
         with:
-          # 이미지가 많아(약 170MB) 기본 10분 안에 처리가 끝나지 않을 수 있어 30분으로 늘린다
-          timeout: 1800000
+          # GitHub 허용 최대값(10분). 배포 용량은 빌드 때 이미지 압축으로 줄인다 (scripts/compress-dist.mjs)
+          timeout: 600000
