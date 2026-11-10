@@ -195,7 +195,8 @@ const LINEAGE_REMASTERED = {
       info: { date: '', period: '분기별 3일', contribution: '100%', tools: LINEAGE_TOOLS, ai: 'UI 장식 및 버튼 디자인 보조 · 배경 이미지 제작' },
       // 슬라이드: 2025 1/2Q, 2025 3/4Q, 2026 1Q. 하단 라벨 이미지에 점(현재 위치)이 함께 그려져 있다
       carousel: {
-        cover: { x: 83, y: 218, w: 1278, h: 810, color: '#03010c' },
+        // 축소 표시 때 밑그림 가장자리가 흰 줄로 비치지 않게 좌우를 3px씩 더 덮는다 (바깥은 같은 #03010c 배경)
+        cover: { x: 80, y: 218, w: 1284, h: 810, color: '#03010c' },
         area: { x: 2, y: 218, w: 1441, h: 810 },
         slides: [
           {
